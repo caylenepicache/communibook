@@ -1,5 +1,4 @@
 module.exports={
-  authorization: require('./passport'),
- // bcrypt:require('./bcrypt')
+  authorization: require('./passport')
 }
 

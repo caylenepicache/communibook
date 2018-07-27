@@ -34,6 +34,8 @@ app.use(express.static(join(__dirname, '../client/build')));
 
 app.use(passport.initialize());
 app.use(passport.session());
+
+//need to figure out route stuff for the app.
 app.use("/auth", authRouter);
 //app.use(apiRoutes);
 

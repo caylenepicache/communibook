@@ -6,7 +6,7 @@ const {join} = require('path')
 const app = express();
 const PORT = process.env.PORT || 3000;
 const authRouter = require('./routes/auth-routes');
-const apiRoutes = require('./routes/html-api-routes');
+const apiRoutes = require('./routes/library-api-routes');
 //const {authorization} = require('./authorization');
 var passport = require('passport');
 const db = require('./models');
@@ -35,7 +35,7 @@ app.use(express.static(join(__dirname, '../client/build')));
 app.use(passport.initialize());
 app.use(passport.session());
 app.use("/auth", authRouter);
-app.use(apiRoutes);
+//app.use(apiRoutes);
 
 
 

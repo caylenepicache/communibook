@@ -1,17 +1,34 @@
 {
-  "name": "communibook",
-  "version": "0.1.0",
-  "private": true,
-  "dependencies": {
-    "@material-ui/core": "^1.4.1",
-    "react": "^16.4.1",
-    "react-dom": "^16.4.1",
-    "react-scripts": "1.1.4"
-  },
+  "name": "attempt-100",
+  "version": "1.0.0",
+  "description": "React app with sequelize",
+  "main": "index.js",
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
+    "client-install": "npm install --prefix client",
+    "start": "node server/index.js",
+    "server": "nodemon server/index.js",
+    "client": "npm start --prefix client",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
+  },
+  "author": "Roarke Catubig",
+  "license": "MIT",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "concurrently": "^3.6.0",
+    "cookie-session": "^2.0.0-beta.3",
+    "express": "^4.16.3",
+    "express-session": "^1.15.6",
+    "google-books-search": "^0.3.1",
+    "google-geocoder": "^0.2.1",
+    "mysql": "^2.15.0",
+    "mysql2": "^1.5.3",
+    "npm": "^6.2.0",
+    "passport": "^0.4.0",
+    "passport-google-oauth20": "^1.0.0",
+    "sequelize": "^4.38.0",
+    "sequelize-cli": "^4.0.0"
+  },
+  "devDependencies": {
+    "nodemon": "^1.18.1"
   }
 }

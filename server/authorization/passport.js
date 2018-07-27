@@ -1,43 +1,73 @@
 if (!process.env.PORT) require('dotenv').config();
 const passport = require('passport');
-const GoogleStrategy = require("passport-google-oauth20").Strategy;
-
-
+const GoogleStrategy = require('passport-google-oauth20');
+const keys = require('../config/keys');
 const db = require('../models');
+//require('dotenv').config();
 
-
-const GoogleCreds = {
-  clientID: process.env.GOOGLE_CLIENT_ID,
-  clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-  callbackURL: process.env.GOOGLE_CB_URL
+if(process.env.STATUS === 'DEV'){
+    var link = '/auth/google/redirect'
+}else if(process.env.STATUS === 'PROD'){
+    var link ='http://communibook.herokuapp.com/auth/google/redirect'
 }
 
+passport.use(new GoogleStrategy({
+    // options for the google strategy
+    callbackURL: link,
+    clientID: keys.google.clientID,
+    clientSecret: keys.google.clientSecret
 
-passport.use(new GoogleStrategy(GoogleCreds,
-  (accessToken, refreshToken, profile, cb) => {
-    const searchConditions = {
-      $or: [
-        { email: profile.emails[0].value },
-        { google_id: profile.id.toString() }
-      ]
-    };
-
-    const newUser = {
-      email: profile.emails[0].value,
-      google_id: profile.id.toString(),
-      name: profile.displayName
-    }
-
-    db.Account
-      .findOrCreate({ where: searchConditions, defaults: newUser })
-      .spread((Account, creation) => {
-
-        return cb(null, Account)
-      })
-  }))
+}, (accessToken, refreshToken, email, done) => {
+    // passport callback function
+    //console.log(email);
+    //console.log(profile);s
 
 
-passport.serializeUser((user, cb) => cb(null, user));
-passport.deserializeUser((obj, cb) => cb(null, obj));
+    db.User.findOne({
+        where: {
+            email: email.emails[0].value
+        }
+    }).then(function (user) {
+        if (user) {
+            console.log("user is: " + user);
+            done(null, user)
+        } else {
+            console.log(email)
+            var data =
+                {
+                    // firstName: email.name.givenName,
+                    // lastName: email.name.familyName,
+                    email: email.emails[0].value
+                };
 
-module.exports = passport;
+            db.User.create(data).then(function (newUser, created) {
+                if (!newUser) {
+                    return done(null, false);
+                }
+                if (newUser) {
+                    return done(null, newUser);
+                };
+                
+            }).then((newUser) => {
+                console.log('new user created: ' + data.email);
+            });
+            
+        }
+    });
+})); 
+    
+
+// serialize user
+passport.serializeUser(function(user, done) {
+    done(null, user.id);
+    console.log("Serializing User")
+    console.log(user.id);
+});
+
+// deserialize user
+passport.deserializeUser(function(id, done) {
+    db.User.findById(id).then(function(user) {
+        done(null, user)
+    });
+});
+

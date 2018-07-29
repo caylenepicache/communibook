@@ -1,0 +1,9 @@
+#NavBar a {
+  margin-right: 8px;
+  color: black;
+  text-decoration: none;
+}
+
+#NavBar a.active {
+  color: red;
+}

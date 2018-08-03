@@ -5,14 +5,13 @@ import TextField from '@material-ui/core/TextField'
 
 
 const SearchBar = () => (
-    <form>
+    <form className={SearchBar.container}>
         <TextField
-        name="bookSearched"
-        hintText="Search for a Book"
+        id="bookSearched"
+        className="bookSearched"
         floatingLabelText="Search"
-        //value={this.state.bookSearched}
+        value={this.state.bookSearched}
         //onChange={e => this.change(e)}
-        floatingLabelFixed
         />
     </form>
     );

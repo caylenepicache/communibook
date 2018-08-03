@@ -10,7 +10,7 @@ const SearchBar = () => (
         id="bookSearched"
         className="bookSearched"
         floatingLabelText="Search"
-        value={this.state.bookSearched}
+        //value={this.state.bookSearched}
         //onChange={e => this.change(e)}
         />
     </form>

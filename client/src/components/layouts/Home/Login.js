@@ -1,6 +1,7 @@
 import React from 'react';
 //import axios from 'axios';
 import "./Login.css";
+import Google from "./Google.js"
 //import TextField from '@material-ui/core/TextField';
 //import FormControl from '@material-ui/core/FormControl';
 
@@ -21,6 +22,7 @@ class Login extends React.Component {
                     </label>
                 </p>
             </div>
+            <Google />
             <div className="center-align">
                 <a className="waves-effect waves-light btn" id="submit">Submit</a>
             </div>

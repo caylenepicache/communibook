@@ -30,7 +30,6 @@ class Google extends React.Component {
     return(
 
     <div className='OAuth'>
-
           sign in using
 
         <a href="/auth/google">

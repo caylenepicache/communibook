@@ -32,7 +32,7 @@ class Google extends React.Component {
     <div className='OAuth'>
           sign in using
 
-        <a href="/auth/google">
+        <a href="/auth/google/">
           <button className='social'>
             <img id="googleImg" src='https://cdn3.iconfinder.com/data/icons/social-media-2068/64/_Google-128.png' alt='google' />
           </button>

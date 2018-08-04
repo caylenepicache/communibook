@@ -5,6 +5,7 @@ const keys = require('../config/keys');
 const db = require('../models');
 //require('dotenv').config();
 
+
 if(process.env.STATUS === 'DEV'){
     var link = '/auth/google/redirect'
 }else if(process.env.STATUS === 'PROD'){
@@ -71,3 +72,4 @@ passport.deserializeUser(function(id, done) {
     });
 });
 
+module.exports = passport;

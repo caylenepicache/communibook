@@ -7,8 +7,8 @@
     "client-install": "npm install --prefix client",
     "start": "node server/index.js",
     "server": "nodemon server/index.js",
-    "client": "npm start --prefix client",
-    "dev": "concurrently \"npm run server\" \"npm run client\""
+    "client": "cd client && npm run build",
+    "dev": "npm run client && npm run server"
   },
   "author": "Roarke Catubig",
   "license": "MIT",

@@ -4,48 +4,6 @@ import './SearchBar.css';
 import TextField from '@material-ui/core/TextField';
 
 
-/*
-class SearchBar extends React.Component {
-    state = {
-        name: 'Cat in the Hat'
-      };
-
-      handleChange = name => event => {
-        this.setState({
-          [name]: event.target.value,
-        });
-      };
-
-      render() {
-          const {classes} = this.props;
-      
-      return (
-        <TextField
-        id="name"
-        label="Name"
-        className={classes.textField}
-        value={this.state.name}
-        onChange={this.handleChange('name')}
-        margin="normal"
-        />
-      )}
-}
-*/
-
-/*
-const SearchBar = () => (
-    <TextField
-    type="text"
-    placeholder="Search for..."
-    name="query"
-    value={this.state.query}
-    onChange={this.onChange}
-/>
-    );
-
-    *
-    */
-
    class SearchBar extends React.Component {
     constructor(props){
       super(props);

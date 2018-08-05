@@ -37,7 +37,7 @@ app.use(passport.session());
 
 //need to figure out route stuff for the app.
 app.use("/auth", authRouter);
-//app.use(apiRoutes);
+app.use(apiRoutes);
 
 
 

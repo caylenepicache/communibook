@@ -4,10 +4,13 @@ var keys = require("../config/keys.js");
 var books = require('google-books-search');
 var geocoder = require('google-geocoder');
 
-module.exports = function (app) {
+var express= require('express');
+var router = express.Router();
+
+//module.exports = function (app) {
 
     // Library API routes
-    app.get("/validate-user", function(req, res) {
+    router.get("/validate-user", function(req, res) {
         db.User.findAll({
             where: {
                 id: req.user.id
@@ -17,7 +20,7 @@ module.exports = function (app) {
         });
     });
 
-    app.get("/check-user/:user_name", function(req, res) {
+    router.get("/check-user/:user_name", function(req, res) {
         db.User.findOne({
             where: {
                 userName: req.params.user_name
@@ -28,7 +31,7 @@ module.exports = function (app) {
         });
     });
 
-    app.put("/update-user/:user_name/:zip_code", function(req, res) {
+    router.put("/update-user/:user_name/:zip_code", function(req, res) {
         db.User.update({
             userName: req.params.user_name,
             zipCode: req.params.zip_code
@@ -42,12 +45,12 @@ module.exports = function (app) {
         })
     })
 
-    app.get("/logout", function (req, res) {
+    router.get("/logout", function (req, res) {
         req.logout();
         res.redirect('/')
     });
 
-    app.get("/search/books/:query", function (req, res) {
+    router.get("/search/books/:query", function (req, res) {
         // $.get("https://www.googleapis.com/books/v1/volumes?q=" + req.params.query, function(result) {
         //     res.json(result)
         // })
@@ -61,7 +64,7 @@ module.exports = function (app) {
         
     });
 
-    app.post("/book/request", function(req, res) {
+    router.post("/book/request", function(req, res) {
         db.User.findOne({
             where: {
                 id: req.user.id,
@@ -85,7 +88,7 @@ module.exports = function (app) {
     });
 
     // Get route for returning posts of a specific category
-    app.get("/books/requested", function(req, res) {
+    router.get("/books/requested", function(req, res) {
         db.Book.findAll({
             where: {
                 postType: "REQUEST",
@@ -101,7 +104,7 @@ module.exports = function (app) {
     });
 
     //Get route for returning all offered books
-    app.get("/books/offered", function(req, res) {
+    router.get("/books/offered", function(req, res) {
         db.Book.findAll({
         where: {
             postType: "OFFER",
@@ -118,7 +121,7 @@ module.exports = function (app) {
     });
 
 
-    app.post("/book/offered", function(req, res) {
+    router.post("/book/offered", function(req, res) {
         db.User.findOne({
             where: {
                 id: req.user.id,
@@ -143,7 +146,7 @@ module.exports = function (app) {
 
 
     // Get route for returning posts of a specific category
-    app.get("/profile/requests", function(req, res) {
+    router.get("/profile/requests", function(req, res) {
         db.Book.findAll({
         where: {
             UserId: req.user.id,
@@ -159,7 +162,7 @@ module.exports = function (app) {
         });
     });
 
-    app.get("/profile/offers", function(req, res) {
+    router.get("/profile/offers", function(req, res) {
         db.Book.findAll({
         where: {
             UserId: req.user.id,
@@ -175,7 +178,7 @@ module.exports = function (app) {
         });
     });
 
-    app.get("/requests/pending", function(req, res) {
+    router.get("/requests/pending", function(req, res) {
         db.Book.findAll({
         where: {
             respondingUser: req.user.id,
@@ -187,7 +190,7 @@ module.exports = function (app) {
         });
     });
 
-    app.get("/offers/pending", function(req, res) {
+    router.get("/offers/pending", function(req, res) {
         db.Book.findAll({
         where: {
             UserId: req.user.id,
@@ -204,7 +207,7 @@ module.exports = function (app) {
         });
     });
 
-    app.get("/offers/deliver/me", function(req, res) {
+    router.get("/offers/deliver/me", function(req, res) {
         db.Book.findAll({
         where: {
             respondingUser: req.user.id,
@@ -217,7 +220,7 @@ module.exports = function (app) {
     });
 
     // DELETE route for deleting Dream
-    app.delete("/book/request/delete/:id", function (req, res) {
+    router.delete("/book/request/delete/:id", function (req, res) {
         db.Book.destroy({
             where: {
                 id: req.params.id
@@ -227,7 +230,7 @@ module.exports = function (app) {
         });
     });
 
-    app.delete("/book/offer/delete/:id", function (req, res) {
+    router.delete("/book/offer/delete/:id", function (req, res) {
         db.Book.destroy({
             where: {
                 id: req.params.id
@@ -237,7 +240,7 @@ module.exports = function (app) {
         });
     });
 
-    app.put("/book/request/update/:id/:action", function (req, res) {
+    router.put("/book/request/update/:id/:action", function (req, res) {
         if (req.params.action === "DELIVERY_PENDING") {
             db.Book.update(
                 {
@@ -328,7 +331,7 @@ module.exports = function (app) {
 
     });
 
-    app.put("/book/offer/update/:id/:action", function (req, res) {
+    router.put("/book/offer/update/:id/:action", function (req, res) {
         if (req.params.action === "PENDING") {
             db.Book.update(
                 {
@@ -405,7 +408,7 @@ module.exports = function (app) {
 
     });
 
-    app.post("/check-address", function(req, res) {
+    router.post("/check-address", function(req, res) {
         var address = req.body.address;
         console.log(address)
         var geo = geocoder({
@@ -428,7 +431,7 @@ module.exports = function (app) {
           });
     });
 
-    app.put("/save-address", function(req, res) {
+    router.put("/save-address", function(req, res) {
         var address = req.body.address;
         console.log(address)
         var geo = geocoder({
@@ -463,7 +466,7 @@ module.exports = function (app) {
           });
     });
 
-    app.get("/view-request/:id", function(req, res) {
+    router.get("/view-request/:id", function(req, res) {
         db.Book.findOne({
         where: {
             id: req.params.id,
@@ -478,7 +481,7 @@ module.exports = function (app) {
         });
     });
 
-    app.get("/view-offer/:id", function(req, res) {
+    router.get("/view-offer/:id", function(req, res) {
         db.Book.findOne({
         where: {
             id: req.params.id,
@@ -493,7 +496,7 @@ module.exports = function (app) {
         });
     });
 
-    app.get("/view-request/:id/:action", function(req, res) {
+    router.get("/view-request/:id/:action", function(req, res) {
         db.Book.findOne({
         where: {
             id: req.params.id,
@@ -504,7 +507,7 @@ module.exports = function (app) {
         });
     });
 
-    app.get("/user-info/:id", function(req, res) {
+    router.get("/user-info/:id", function(req, res) {
         db.User.findOne({
             where: {
               id: req.params.id
@@ -514,7 +517,7 @@ module.exports = function (app) {
           })
     })
 
-    app.get("/user-info", function(req, res) {
+    router.get("/user-info", function(req, res) {
         db.User.findOne({
             where: {
               id: req.user.id
@@ -526,7 +529,7 @@ module.exports = function (app) {
 
 
 
-    // app.get("profile", function (req, res) {
+    // router.get("profile", function (req, res) {
     //     db.Users.findAll()
     //     .then(function(err, user_info) {
     //         if (err) {
@@ -544,7 +547,7 @@ module.exports = function (app) {
 
 // ******************************************************************************
     //GET route for getting all of the dreams
-    app.get("/social-feed/all", function (req, res) {
+    router.get("/social-feed/all", function (req, res) {
         db.Dream.findAll({
             where: {
                 privacy: 0
@@ -559,7 +562,7 @@ module.exports = function (app) {
     });
 
     //GET route for getting all of the dreams
-    app.get("/my-feed/", function (req, res) {
+    router.get("/my-feed/", function (req, res) {
         db.Dream.findAll({
             where: {
                 UserId: req.user.id
@@ -572,7 +575,7 @@ module.exports = function (app) {
 
 
     //GET route for retrieving a single dream
-    app.get("/update-dream/:id", function (req, res) {
+    router.get("/update-dream/:id", function (req, res) {
         db.Dream.findOne({
             where: {
                 id: req.params.id,
@@ -585,7 +588,7 @@ module.exports = function (app) {
     });
 
     // POST route for saving a new Dream
-    app.post("/add-dream", function(req, res) {
+    router.post("/add-dream", function(req, res) {
         console.log("User ID (Line 41 dreams-api-routes.js): " + req.user.id)
         console.log(req.body);
         var textPolarity = "";
@@ -620,7 +623,7 @@ module.exports = function (app) {
     });
 
     //PUT route for updating Dream
-    app.put("/add-dream", function (req, res) {
+    router.put("/add-dream", function (req, res) {
         console.log(req.body);
         var textPolarity = "";
         var confPolarity = "";
@@ -658,4 +661,6 @@ module.exports = function (app) {
         };
       });
     });
-};
+//};
+
+module.exports = router;

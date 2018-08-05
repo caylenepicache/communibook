@@ -9,7 +9,8 @@ class Main extends React.Component {
     return (
     <div>
         <h1> main app </h1>
-    <SearchBar />
+    <SearchBar
+    searchBoxName={"userNameSearch"} onSearchTermChange={this.onSearch} />
     </div>
 
     )
